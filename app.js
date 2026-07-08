@@ -86,6 +86,8 @@ app.post('/addStudent', (req, res) => {
     }
   });
 });
+
+
 // ------------------------------------------------
 // ROUTE 4: Edit Student Information
 // ------------------------------------------------
@@ -100,7 +102,20 @@ app.get('/editStudent/:id', (req, res) => {
     }
     
     if (results.length > 0) {
-      res.render('editStudents', { student: results[0] });
+      const studentData = results[0];
+      
+      
+      if (studentData.dob) {
+        const d = new Date(studentData.dob);
+        
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+      
+        studentData.formattedDob = `${year}-${month}-${day}`;
+      }
+
+      res.render('editStudents', { student: studentData });
     } else {
       res.send('Student not found');
     }
