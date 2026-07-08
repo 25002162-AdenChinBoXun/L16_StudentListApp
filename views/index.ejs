@@ -27,27 +27,45 @@
     
     <div class="container mt-5">
         <h2 class="text-center mb-4">Student Roster</h2>
-        <div class="row">
-            <% if (students && students.length > 0) { %>
-                <% students.forEach(student => { %>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 shadow-sm">
-                            <img src="<%= student.image %>" class="card-img-top" alt="<%= student.name %>" style="height: 250px; object-fit: cover;">
-                            <div class="card-body">
-                                <h4 class="card-title"><%= student.name %></h4>
-                                <p class="card-text mb-1"><b>DOB:</b> <%= student.dob.toLocaleDateString('en-GB') %></p>
-                                <p class="card-text mb-3"><b>Contact:</b> <%= student.contact %></p>
+        
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle bg-white shadow-sm">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Date of Birth</th>
+                        <th>Contact</th>
+                        <th>View/Edit/Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (students && students.length > 0) { %>
+                        <% students.forEach(student => { %>
+                            <tr>
+                                <td>
+                                    <img src="<%= student.image %>" alt="<%= student.name %>" style="width: 80px; height: 80px; object-fit: cover;" class="rounded">
+                                </td>
                                 
-                                <a href="/student/<%= student.studentId %>" class="btn btn-primary w-100">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                <% }) %>
-            <% } else { %>
-                <div class="col-12 text-center">
-                    <p class="text-muted">No students found. Go ahead and add some!</p>
-                </div>
-            <% } %>
+                                <td><%= student.name %></td>
+                                <td><%= student.dob.toLocaleDateString('en-GB') %></td>
+                                <td><%= student.contact %></td>
+                                
+                                <td>
+                                    <a href="/student/<%= student.studentId %>" class="btn btn-primary btn-sm">View Details</a>
+                                    <a href="/editStudent/<%= student.studentId %>" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="/deleteStudent/<%= student.studentId %>" class="btn btn-danger btn-sm" 
+                                        onclick="return confirm('Are you sure you want to delete this student?');">Delete</a>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">No students found. Go ahead and add some!</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
         </div>
     </div>
     
